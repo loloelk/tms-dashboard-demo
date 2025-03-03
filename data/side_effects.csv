@@ -1,0 +1,4 @@
+PatientID,Date,Headache,Nausea,Scalp_Discomfort,Dizziness,Other,Notes
+P001,2025-03-02,3,0,0,0,,
+P001,2025-03-02,4,0,0,0,,
+P001,2025-03-04,3,6,2,4,,

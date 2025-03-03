@@ -1,6 +1,4 @@
-# Data files
-data/
-logs/
+
 
 # Environment
 .env
