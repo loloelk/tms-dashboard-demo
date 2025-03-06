@@ -6,8 +6,40 @@ import plotly.graph_objects as go
 
 def main_dashboard_page():
     """Main overview dashboard with key metrics"""
-    st.header("Vue d'Ensemble")
+    # Create a layout with title on left and patient selection on right
+    col_title, col_select = st.columns([2, 1])
     
+    with col_title:
+        st.header("Vue d'Ensemble")
+    
+    with col_select:
+        if hasattr(st.session_state, 'final_data') and not st.session_state.final_data.empty:
+            # Get patient IDs and sort them
+            all_patient_ids = sorted(st.session_state.final_data['ID'].unique().tolist())
+            
+            if all_patient_ids:
+                # Create a horizontal layout for selection and button
+                sel_col, btn_col = st.columns([3, 1])
+                
+                with sel_col:
+                    selected_patient = st.selectbox(
+                        "Sélectionner un patient:",
+                        all_patient_ids,
+                        index=0 if st.session_state.selected_patient_id not in all_patient_ids else all_patient_ids.index(st.session_state.selected_patient_id),
+                        key="overview_patient_selector",
+                        label_visibility="collapsed"  # Hide the label for cleaner layout
+                    )
+                
+                with btn_col:
+                    if st.button("Voir détails", type="primary", key="view_details_btn"):
+                        st.session_state.selected_patient_id = selected_patient
+                        st.session_state.sidebar_selection = "Tableau de Bord du Patient"
+                        st.rerun()
+    
+    # Add a divider
+    st.markdown("---")
+    
+    # Display error if no data
     if not hasattr(st.session_state, 'final_data') or st.session_state.final_data.empty:
         st.error("Aucune donnée patient chargée.")
         return

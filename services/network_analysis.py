@@ -145,9 +145,11 @@ def plot_network(G, title="Symptom Network"):
             size=20,
             colorbar=dict(
                 thickness=15,
-                title='Nombre de Connexions',
-                xanchor='left',
-                titleside='right'
+                title=dict(
+                    text='Nombre de Connexions',
+                    side='right'
+                ),
+                xanchor='left'
             ),
             line_width=2
         )
@@ -163,8 +165,10 @@ def plot_network(G, title="Symptom Network"):
     fig = go.Figure(
         data=[edge_trace, node_trace],
         layout=go.Layout(
-            title=title,
-            titlefont_size=16,
+            title=dict(
+                text=title,
+                font=dict(size=16)
+            ),
             showlegend=False,
             hovermode='closest',
             margin=dict(b=20, l=5, r=5, t=40),

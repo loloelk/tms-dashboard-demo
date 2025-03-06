@@ -39,6 +39,25 @@ st.set_page_config(
 with open('assets/styles.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
+# Add welcome message for first-time users
+if 'first_visit' not in st.session_state:
+    st.session_state.first_visit = True
+    
+if st.session_state.first_visit:
+    st.info("""
+    ### Bienvenue au Tableau de Bord des Patients TMS!
+    
+    Pour commencer:
+    1. Sélectionnez un patient dans la barre latérale à gauche
+    2. Naviguez entre les différentes vues à l'aide des boutons
+    3. Explorez les données et ajoutez vos observations
+    
+    Cliquez sur 'Fermer' pour ne plus voir ce message.
+    """)
+    if st.button("Fermer"):
+        st.session_state.first_visit = False
+        st.rerun()
+
 # Initialize session state
 if 'selected_patient_id' not in st.session_state:
     st.session_state.selected_patient_id = None
@@ -46,6 +65,10 @@ if 'selected_patient_id' not in st.session_state:
 if 'session_started' not in st.session_state:
     st.session_state.session_started = datetime.now()
     st.session_state.patient_views = {}
+
+# Initialize session state for navigation
+if 'sidebar_selection' not in st.session_state:
+    st.session_state.sidebar_selection = "Vue d'Ensemble"
 
 # Define constants from config
 PATIENT_DATA_CSV = config['paths']['patient_data_with_protocol']

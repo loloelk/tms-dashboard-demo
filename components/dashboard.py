@@ -59,12 +59,18 @@ def treatment_progress(patient_ema):
     else:
         st.warning("Aucune donnée EMA disponible pour suivre la progression.")
 
+# Modified start of the dashboard.py file
 def patient_dashboard():
     """Main dashboard for individual patient view"""
-    if not st.session_state.selected_patient_id:
-        st.warning("Aucun patient sélectionné.")
+    st.header("Tableau de Bord du Patient")
+    
+    # Simple patient indicator instead of navigation controls
+    if st.session_state.selected_patient_id:
+        st.success(f"Patient actuel: {st.session_state.selected_patient_id}")
+    else:
+        st.warning("Aucun patient sélectionné. Veuillez choisir un patient dans la barre latérale.")
         return
-
+    
     # Retrieve patient data
     patient_row = st.session_state.final_data[
         st.session_state.final_data["ID"] == st.session_state.selected_patient_id
@@ -87,6 +93,29 @@ def patient_dashboard():
         "📈 Progression",
         "📝 Notes Infirmières"
     ])
+    
+    # Retrieve patient data
+    patient_row = st.session_state.final_data[
+        st.session_state.final_data["ID"] == st.session_state.selected_patient_id
+    ]
+    
+    if patient_row.empty:
+        st.error("Données du patient non trouvées.")
+        return
+
+    # Retrieve patient data
+    patient_row = st.session_state.final_data[
+        st.session_state.final_data["ID"] == st.session_state.selected_patient_id
+    ]
+    
+    if patient_row.empty:
+        st.error("Données du patient non trouvées.")
+        return
+        
+    patient_data = patient_row.iloc[0]
+
+    # Retrieve EMA data
+    patient_ema = get_patient_ema_data(st.session_state.selected_patient_id)
 
     with tab1:
         st.header("Aperçu du Patient")

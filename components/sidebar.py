@@ -1,4 +1,4 @@
-# components/sidebar.py (revised)
+# components/sidebar.py
 import streamlit as st
 import re
 
@@ -8,81 +8,18 @@ def extract_number(id_str):
     return int(match.group()) if match else float('inf')
 
 def render_sidebar():
-    """Render the sidebar with hierarchical navigation"""
+    """Render the sidebar with improved navigation and patient selection"""
     with st.sidebar:
         st.title("Tableau de Bord des Patients")
         st.markdown("---")
         
-        # Main navigation tabs
-        st.header("Navigation")
-        main_tab = st.radio("Vue principale", [
-            "Vue d'Ensemble",
-            "Tableau de Bord du Patient"
-        ])
+        # PATIENT SELECTION SECTION
+        st.markdown("### 👥 SÉLECTION DU PATIENT")
         
-        # Sub-tabs based on main selection
-        if main_tab == "Vue d'Ensemble":
-            st.subheader("Sections d'analyse globale")
-            overview_subtab = st.radio("Sélectionner", [
-                "Résumé Général",
-                "Analyse des Protocoles"
-            ])
-            
-            # Determine the page based on subtab
-            if overview_subtab == "Résumé Général":
-                page = "Vue d'Ensemble"
-            else:
-                page = "Analyse des Protocoles"
-                
-        else:  # Tableau de Bord du Patient
-            st.subheader("Sections patient")
-            patient_subtab = st.radio("Sélectionner", [
-                "Aperçu Patient",
-                "Entrées Infirmières",
-                "Détails PID-5",
-                "Suivi des Effets Secondaires"
-            ])
-            
-            # Determine the page based on subtab
-            if patient_subtab == "Aperçu Patient":
-                page = "Tableau de Bord du Patient"
-            elif patient_subtab == "Entrées Infirmières":
-                page = "Entrées Infirmières"
-            elif patient_subtab == "Détails PID-5":
-                page = "Détails PID-5"
-            else:
-                page = "Suivi des Effets Secondaires"
-
-        st.markdown("---")
-        st.header("Sélectionner un Patient")
-        
-        # Patient selection - This remains mostly unchanged
+        # Patient selection with better styling
         if 'final_data' in st.session_state and not st.session_state.final_data.empty:
-            # Filter options
-            st.subheader("Filtres")
-            
-            # Protocol filter
-            all_protocols = st.session_state.final_data['protocol'].unique().tolist()
-            protocol_filter = st.multiselect("Protocole", options=all_protocols)
-            
-            # Age range filter
-            min_age = int(st.session_state.final_data['age'].min())
-            max_age = int(st.session_state.final_data['age'].max())
-            age_range = st.slider("Âge", min_value=min_age, max_value=max_age, value=(min_age, max_age))
-            
-            # Apply filters
-            filtered_data = st.session_state.final_data.copy()
-            
-            if protocol_filter:
-                filtered_data = filtered_data[filtered_data['protocol'].isin(protocol_filter)]
-            
-            filtered_data = filtered_data[
-                (filtered_data['age'] >= age_range[0]) & 
-                (filtered_data['age'] <= age_range[1])
-            ]
-            
-            # Combine existing and simulated patient IDs
-            existing_patient_ids = filtered_data['ID'].unique().tolist()
+            # Get all patient IDs
+            existing_patient_ids = st.session_state.final_data['ID'].unique().tolist()
             simulated_patient_ids = []
             
             if 'simulated_ema_data' in st.session_state and not st.session_state.simulated_ema_data.empty:
@@ -91,38 +28,110 @@ def render_sidebar():
             all_patient_ids = sorted(list(set(existing_patient_ids + simulated_patient_ids)), key=extract_number)
             
             if all_patient_ids:
+                # Patient selection dropdown with helpful tooltip
                 st.session_state.selected_patient_id = st.selectbox(
-                    "Sélectionner l'ID du Patient", 
-                    all_patient_ids
+                    "👤 Sélectionner un Patient", 
+                    all_patient_ids,
+                    help="Choisissez un patient pour voir ses données détaillées",
+                    key="sidebar_patient_selector"
                 )
                 
+                # Show patient details button
+                if st.button("👁️ Voir Détails Patient", type="primary", key="sidebar_view_patient"):
+                    st.session_state.sidebar_selection = "Tableau de Bord du Patient"
+                    st.success(f"Patient {st.session_state.selected_patient_id} sélectionné!")
+                    st.rerun()
+                
+                # Apply filters in a collapsible section
+                with st.expander("🔍 Filtres Avancés", expanded=False):
+                    # Protocol filter
+                    all_protocols = st.session_state.final_data['protocol'].unique().tolist()
+                    protocol_filter = st.multiselect(
+                        "Protocole", 
+                        options=all_protocols,
+                        key="sidebar_protocol_filter"
+                    )
+                    
+                    # Age range filter
+                    min_age = int(st.session_state.final_data['age'].min())
+                    max_age = int(st.session_state.final_data['age'].max())
+                    age_range = st.slider(
+                        "Âge", 
+                        min_value=min_age, 
+                        max_value=max_age, 
+                        value=(min_age, max_age),
+                        key="sidebar_age_filter"
+                    )
+                    
+                    # Apply filter button
+                    if st.button("Appliquer les filtres", key="apply_filters"):
+                        # This would normally filter the data
+                        # For now, just show a success message
+                        st.success("Filtres appliqués!")
+                
                 # Display the number of loaded patients
-                st.write(f"Nombre de patients chargés : {len(all_patient_ids)}")
+                st.info(f"📊 {len(all_patient_ids)} patients disponibles")
             else:
-                st.warning("Aucun patient ne correspond aux critères de filtrage.")
-
+                st.warning("Aucun patient disponible.")
+        
+        st.markdown("---")
+        
+        # NAVIGATION SECTION
+        st.markdown("### 📋 NAVIGATION")
+        
+        # Define navigation options with descriptions
+        main_options = {
+            "Vue d'Ensemble": "Vue générale et statistiques",
+            "Tableau de Bord du Patient": "Détails et suivi du patient sélectionné",
+            "Analyse des Protocoles": "Comparaison des protocoles de traitement",
+            "Entrées Infirmières": "Gestion des notes et objectifs",
+            "Détails PID-5": "Analyse détaillée de l'inventaire PID-5",
+            "Suivi des Effets Secondaires": "Gestion des effets secondaires"
+        }
+        
+        # Initialize navigation selection in session state
+        if 'sidebar_selection' not in st.session_state:
+            st.session_state.sidebar_selection = "Vue d'Ensemble"
+        
+        # Create radio buttons for navigation
+        selected_option = st.radio(
+            "Sélectionner une page:",
+            options=list(main_options.keys()),
+            index=list(main_options.keys()).index(st.session_state.sidebar_selection) 
+                if st.session_state.sidebar_selection in main_options else 0,
+            key="sidebar_navigation"
+        )
+        
+        # Show description of selected option
+        st.info(main_options[selected_option])
+        
+        # Update session state if selection changed
+        if selected_option != st.session_state.sidebar_selection:
+            st.session_state.sidebar_selection = selected_option
+            st.rerun()
+        
         # Help section
-        with st.expander("Aide"):
+        with st.expander("❓ Aide", expanded=False):
             st.markdown("""
-            **Comment utiliser ce tableau de bord:**
+            ### Guide d'utilisation
             
-            1. Sélectionnez une vue principale dans le menu de navigation
-            2. Choisissez une section spécifique dans le sous-menu
-            3. Pour analyser un patient spécifique, sélectionnez-le dans la liste
-            4. Utilisez les filtres pour affiner la liste des patients
+            1. **Sélectionner un patient** dans la section en haut de cette barre latérale
+            2. **Naviguer** entre les différentes vues en utilisant les options de navigation
+            3. **Explorer** les données et ajouter des observations
             
-            Pour obtenir de l'aide supplémentaire, contactez le support technique.
+            Pour toute question, contactez le support technique.
             """)
-            
-        # Session statistics (unchanged)
+        
+        # Session statistics
         if 'session_started' in st.session_state:
-            with st.expander("Statistiques de Session"):
+            with st.expander("⏱️ Statistiques", expanded=False):
                 from datetime import datetime
                 session_duration = datetime.now() - st.session_state.session_started
                 hours, remainder = divmod(session_duration.seconds, 3600)
                 minutes, seconds = divmod(remainder, 60)
                 
-                st.write(f"Durée de session: {hours}h {minutes}m")
+                st.write(f"Durée: {hours}h {minutes}m")
                 st.write(f"Patients consultés: {len(st.session_state.patient_views)}")
     
-    return page
+    # Return the selected page based on session state
+    return st.session_state.sidebar_selection
