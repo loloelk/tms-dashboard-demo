@@ -266,7 +266,7 @@ def get_side_effects_history(patient_id: str) -> pd.DataFrame:
     if conn is None: return pd.DataFrame()
 
     try:
-        # ***** CORRECTED QUERY: Added patient_id *****
+        # ***** CORRECTED QUERY: Includes patient_id *****
         query = """
             SELECT patient_id, report_date, headache, nausea, scalp_discomfort, dizziness,
                    other_effects, notes, timestamp, created_by
