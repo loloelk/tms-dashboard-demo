@@ -7,12 +7,6 @@ env/
 venv/
 ENV/
 
-# IDE files
-.idea/
-.vscode/
-*.swp
-*.swo
-
 # Python cache
 __pycache__/
 *.py[cod]
@@ -25,3 +19,15 @@ __pycache__/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Ignore data files in the data directory
+data/*.csv
+data/*.db
+
+# Python virtual environment
+venv/
+
+# IDE specific files (optional but good practice)
+.vscode/
+__pycache__/
+*.pyc
