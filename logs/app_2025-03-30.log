@@ -1,0 +1,368 @@
+2025-03-30 12:54:51,456 - root - INFO - Application started
+2025-03-30 12:55:11,533 - root - INFO - Application started
+2025-03-30 12:55:12,769 - root - INFO - Application started
+2025-03-30 12:55:13,713 - root - INFO - Application started
+2025-03-30 12:55:13,768 - root - INFO - Application started
+2025-03-30 12:55:13,781 - root - INFO - Running database initialization check...
+2025-03-30 12:55:13,781 - root - INFO - Initializing database...
+2025-03-30 12:55:13,784 - root - INFO - Table 'nurse_inputs' checked/created.
+2025-03-30 12:55:13,784 - root - INFO - Table 'side_effects' checked/created.
+2025-03-30 12:55:13,784 - root - INFO - Table 'patients' checked/created.
+2025-03-30 12:55:13,784 - root - INFO - Database initialization complete.
+2025-03-30 12:55:13,785 - root - INFO - Database initialization check complete.
+2025-03-30 12:55:13,787 - root - INFO - CSS styles loaded.
+2025-03-30 12:55:13,875 - root - INFO - Data loaded successfully.
+2025-03-30 12:55:13,876 - root - INFO - Default patient set: P001
+2025-03-30 12:55:13,881 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 12:55:15,609 - root - INFO - Application started
+2025-03-30 12:55:15,620 - root - INFO - CSS styles loaded.
+2025-03-30 12:55:15,700 - root - INFO - Application started
+2025-03-30 12:55:15,705 - root - INFO - CSS styles loaded.
+2025-03-30 12:55:15,708 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 12:55:20,639 - root - INFO - Application started
+2025-03-30 12:55:20,648 - root - INFO - CSS styles loaded.
+2025-03-30 12:55:20,656 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 12:55:20,745 - root - INFO - Application started
+2025-03-30 12:55:20,753 - root - INFO - CSS styles loaded.
+2025-03-30 12:55:20,759 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:00:42,490 - root - INFO - Application started
+2025-03-30 13:00:45,340 - root - INFO - Application started
+2025-03-30 13:00:48,094 - root - INFO - Application started
+2025-03-30 13:00:49,434 - root - INFO - Application started
+2025-03-30 13:00:49,487 - root - INFO - Application started
+2025-03-30 13:00:49,498 - root - INFO - Running database initialization check...
+2025-03-30 13:00:49,498 - root - INFO - Initializing database...
+2025-03-30 13:00:49,502 - root - INFO - Table 'nurse_inputs' checked/created.
+2025-03-30 13:00:49,502 - root - INFO - Table 'side_effects' checked/created.
+2025-03-30 13:00:49,503 - root - INFO - Table 'patients' checked/created.
+2025-03-30 13:00:49,503 - root - INFO - Database initialization complete.
+2025-03-30 13:00:49,503 - root - INFO - Database initialization check complete.
+2025-03-30 13:00:49,504 - root - INFO - CSS styles loaded.
+2025-03-30 13:00:49,559 - root - INFO - Data loaded successfully.
+2025-03-30 13:00:49,560 - root - INFO - Default patient set: P001
+2025-03-30 13:00:51,092 - root - INFO - Application started
+2025-03-30 13:00:51,098 - root - INFO - CSS styles loaded.
+2025-03-30 13:00:51,157 - root - INFO - Application started
+2025-03-30 13:00:51,160 - root - INFO - CSS styles loaded.
+2025-03-30 13:02:32,696 - root - INFO - Application started
+2025-03-30 13:02:43,375 - root - INFO - Application started
+2025-03-30 13:02:46,092 - root - INFO - Application started
+2025-03-30 13:02:46,150 - root - INFO - Application started
+2025-03-30 13:02:46,200 - root - INFO - Application started
+2025-03-30 13:02:46,204 - root - INFO - Running database initialization check...
+2025-03-30 13:02:46,204 - root - INFO - Initializing database...
+2025-03-30 13:02:46,208 - root - INFO - Table 'nurse_inputs' checked/created.
+2025-03-30 13:02:46,209 - root - INFO - Table 'side_effects' checked/created.
+2025-03-30 13:02:46,209 - root - INFO - Table 'patients' checked/created.
+2025-03-30 13:02:46,209 - root - INFO - Database initialization complete.
+2025-03-30 13:02:46,209 - root - INFO - Database initialization check complete.
+2025-03-30 13:02:46,211 - root - INFO - CSS styles loaded.
+2025-03-30 13:02:46,263 - root - INFO - Data loaded successfully.
+2025-03-30 13:02:46,265 - root - INFO - Default patient set: P001
+2025-03-30 13:02:46,283 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 13:02:47,745 - root - INFO - Application started
+2025-03-30 13:02:47,753 - root - INFO - CSS styles loaded.
+2025-03-30 13:02:47,759 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 13:02:47,832 - root - INFO - Application started
+2025-03-30 13:02:47,836 - root - INFO - CSS styles loaded.
+2025-03-30 13:02:47,840 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:02:48,701 - root - INFO - Application started
+2025-03-30 13:02:48,706 - root - INFO - CSS styles loaded.
+2025-03-30 13:02:48,779 - root - INFO - Application started
+2025-03-30 13:02:48,782 - root - INFO - CSS styles loaded.
+2025-03-30 13:02:48,785 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:02:54,092 - root - INFO - Application started
+2025-03-30 13:02:54,101 - root - INFO - CSS styles loaded.
+2025-03-30 13:02:54,242 - root - INFO - Application started
+2025-03-30 13:02:54,245 - root - INFO - CSS styles loaded.
+2025-03-30 13:02:54,248 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:02:56,834 - root - INFO - Application started
+2025-03-30 13:02:56,843 - root - INFO - CSS styles loaded.
+2025-03-30 13:02:56,920 - root - INFO - Application started
+2025-03-30 13:02:56,922 - root - INFO - CSS styles loaded.
+2025-03-30 13:02:56,925 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:02:58,920 - root - INFO - Application started
+2025-03-30 13:02:58,927 - root - INFO - CSS styles loaded.
+2025-03-30 13:02:58,993 - root - INFO - Application started
+2025-03-30 13:02:58,996 - root - INFO - CSS styles loaded.
+2025-03-30 13:02:58,999 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:03:01,324 - root - INFO - Application started
+2025-03-30 13:03:01,330 - root - INFO - CSS styles loaded.
+2025-03-30 13:03:01,398 - root - INFO - Application started
+2025-03-30 13:03:01,401 - root - INFO - CSS styles loaded.
+2025-03-30 13:03:01,404 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:03:03,205 - root - INFO - Application started
+2025-03-30 13:03:03,210 - root - INFO - CSS styles loaded.
+2025-03-30 13:03:03,282 - root - INFO - Application started
+2025-03-30 13:03:03,285 - root - INFO - CSS styles loaded.
+2025-03-30 13:03:03,287 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:03:05,468 - root - INFO - Application started
+2025-03-30 13:03:05,491 - root - INFO - CSS styles loaded.
+2025-03-30 13:03:05,564 - root - INFO - Application started
+2025-03-30 13:03:05,566 - root - INFO - CSS styles loaded.
+2025-03-30 13:03:05,569 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:03:49,090 - root - INFO - Application started
+2025-03-30 13:03:49,103 - root - INFO - CSS styles loaded.
+2025-03-30 13:03:49,225 - root - INFO - Application started
+2025-03-30 13:03:49,229 - root - INFO - CSS styles loaded.
+2025-03-30 13:03:49,232 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:05:42,637 - root - INFO - Application started
+2025-03-30 13:05:42,669 - root - INFO - CSS styles loaded.
+2025-03-30 13:05:42,866 - root - INFO - Application started
+2025-03-30 13:05:42,870 - root - INFO - CSS styles loaded.
+2025-03-30 13:05:42,873 - root - INFO - Routing to page: Parcours Patient
+2025-03-30 13:05:45,227 - root - INFO - Application started
+2025-03-30 13:05:45,233 - root - INFO - CSS styles loaded.
+2025-03-30 13:05:45,313 - root - INFO - Application started
+2025-03-30 13:05:45,320 - root - INFO - CSS styles loaded.
+2025-03-30 13:05:45,326 - root - INFO - Routing to page: Analyse des Protocoles
+2025-03-30 13:05:51,602 - root - INFO - Application started
+2025-03-30 13:05:51,609 - root - INFO - CSS styles loaded.
+2025-03-30 13:05:51,693 - root - INFO - Application started
+2025-03-30 13:05:51,696 - root - INFO - CSS styles loaded.
+2025-03-30 13:05:51,699 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:05:54,910 - root - INFO - Application started
+2025-03-30 13:05:54,917 - root - INFO - CSS styles loaded.
+2025-03-30 13:05:55,051 - root - INFO - Application started
+2025-03-30 13:05:55,058 - root - INFO - CSS styles loaded.
+2025-03-30 13:05:55,065 - root - INFO - Routing to page: Suivi des Effets Secondaires
+2025-03-30 13:06:42,225 - root - INFO - Application started
+2025-03-30 13:06:42,253 - root - INFO - CSS styles loaded.
+2025-03-30 13:06:42,441 - root - INFO - Application started
+2025-03-30 13:06:42,444 - root - INFO - CSS styles loaded.
+2025-03-30 13:06:42,447 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 13:06:43,158 - root - INFO - Application started
+2025-03-30 13:06:43,164 - root - INFO - CSS styles loaded.
+2025-03-30 13:06:43,245 - root - INFO - Application started
+2025-03-30 13:06:43,263 - root - INFO - CSS styles loaded.
+2025-03-30 13:06:43,266 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:10:32,283 - root - INFO - Application started
+2025-03-30 13:10:34,203 - root - INFO - Application started
+2025-03-30 13:10:36,346 - root - INFO - Application started
+2025-03-30 13:10:36,419 - root - INFO - Application started
+2025-03-30 13:10:36,472 - root - INFO - Application started
+2025-03-30 13:10:36,483 - root - INFO - Running database initialization check...
+2025-03-30 13:10:36,483 - root - INFO - Initializing database...
+2025-03-30 13:10:36,487 - root - INFO - Table 'nurse_inputs' checked/created.
+2025-03-30 13:10:36,487 - root - INFO - Table 'side_effects' checked/created.
+2025-03-30 13:10:36,487 - root - INFO - Table 'patients' checked/created.
+2025-03-30 13:10:36,487 - root - INFO - Database initialization complete.
+2025-03-30 13:10:36,488 - root - INFO - Database initialization check complete.
+2025-03-30 13:10:36,489 - root - INFO - CSS styles loaded.
+2025-03-30 13:10:36,527 - root - INFO - Data loaded successfully.
+2025-03-30 13:10:36,528 - root - INFO - Default patient set: P001
+2025-03-30 13:10:36,531 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 13:10:37,546 - root - INFO - Application started
+2025-03-30 13:10:37,551 - root - INFO - CSS styles loaded.
+2025-03-30 13:10:37,614 - root - INFO - Application started
+2025-03-30 13:10:37,617 - root - INFO - CSS styles loaded.
+2025-03-30 13:10:37,620 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 13:10:41,105 - root - INFO - Application started
+2025-03-30 13:10:41,115 - root - INFO - CSS styles loaded.
+2025-03-30 13:10:41,121 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 13:10:41,184 - root - INFO - Application started
+2025-03-30 13:10:41,186 - root - INFO - CSS styles loaded.
+2025-03-30 13:10:41,195 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:10:48,597 - root - INFO - Application started
+2025-03-30 13:10:48,602 - root - INFO - CSS styles loaded.
+2025-03-30 13:10:48,677 - root - INFO - Application started
+2025-03-30 13:10:48,680 - root - INFO - CSS styles loaded.
+2025-03-30 13:10:48,683 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:10:50,819 - root - INFO - Application started
+2025-03-30 13:10:50,825 - root - INFO - CSS styles loaded.
+2025-03-30 13:10:50,892 - root - INFO - Application started
+2025-03-30 13:10:50,895 - root - INFO - CSS styles loaded.
+2025-03-30 13:10:50,897 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:10:53,238 - root - INFO - Application started
+2025-03-30 13:10:53,247 - root - INFO - CSS styles loaded.
+2025-03-30 13:10:53,308 - root - INFO - Application started
+2025-03-30 13:10:53,310 - root - INFO - CSS styles loaded.
+2025-03-30 13:10:53,313 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:14:11,180 - root - INFO - Application started
+2025-03-30 13:14:13,424 - root - INFO - Application started
+2025-03-30 13:14:16,170 - root - INFO - Application started
+2025-03-30 13:14:17,171 - root - INFO - Application started
+2025-03-30 13:14:17,222 - root - INFO - Application started
+2025-03-30 13:14:17,235 - root - INFO - Running database initialization check...
+2025-03-30 13:14:17,235 - root - INFO - Initializing database...
+2025-03-30 13:14:17,242 - root - INFO - Table 'nurse_inputs' checked/created.
+2025-03-30 13:14:17,242 - root - INFO - Table 'side_effects' checked/created.
+2025-03-30 13:14:17,243 - root - INFO - Table 'patients' checked/created.
+2025-03-30 13:14:17,243 - root - INFO - Database initialization complete.
+2025-03-30 13:14:17,243 - root - INFO - Database initialization check complete.
+2025-03-30 13:14:17,244 - root - INFO - CSS styles loaded.
+2025-03-30 13:14:17,282 - root - INFO - Data loaded successfully.
+2025-03-30 13:14:17,282 - root - INFO - Default patient set: P001
+2025-03-30 13:14:17,288 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 13:14:18,633 - root - INFO - Application started
+2025-03-30 13:14:18,637 - root - INFO - CSS styles loaded.
+2025-03-30 13:14:18,707 - root - INFO - Application started
+2025-03-30 13:14:18,710 - root - INFO - CSS styles loaded.
+2025-03-30 13:14:18,714 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 13:14:21,865 - root - INFO - Application started
+2025-03-30 13:14:21,870 - root - INFO - CSS styles loaded.
+2025-03-30 13:14:21,875 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 13:14:21,953 - root - INFO - Application started
+2025-03-30 13:14:21,959 - root - INFO - CSS styles loaded.
+2025-03-30 13:14:21,962 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:14:39,788 - root - INFO - Application started
+2025-03-30 13:14:39,801 - root - INFO - CSS styles loaded.
+2025-03-30 13:14:40,635 - root - INFO - Application started
+2025-03-30 13:14:40,650 - root - INFO - CSS styles loaded.
+2025-03-30 13:14:40,666 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:14:44,895 - root - INFO - Application started
+2025-03-30 13:14:44,904 - root - INFO - CSS styles loaded.
+2025-03-30 13:14:45,026 - root - INFO - Application started
+2025-03-30 13:14:45,032 - root - INFO - CSS styles loaded.
+2025-03-30 13:14:45,035 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:17:45,718 - root - INFO - Application started
+2025-03-30 13:17:47,409 - root - INFO - Application started
+2025-03-30 13:17:50,661 - root - INFO - Application started
+2025-03-30 13:17:50,726 - root - INFO - Application started
+2025-03-30 13:17:50,775 - root - INFO - Application started
+2025-03-30 13:17:50,780 - root - INFO - Running database initialization check...
+2025-03-30 13:17:50,781 - root - INFO - Initializing database...
+2025-03-30 13:17:50,786 - root - INFO - Table 'nurse_inputs' checked/created.
+2025-03-30 13:17:50,787 - root - INFO - Table 'side_effects' checked/created.
+2025-03-30 13:17:50,787 - root - INFO - Table 'patients' checked/created.
+2025-03-30 13:17:50,787 - root - INFO - Database initialization complete.
+2025-03-30 13:17:50,788 - root - INFO - Database initialization check complete.
+2025-03-30 13:17:50,790 - root - INFO - CSS styles loaded.
+2025-03-30 13:17:50,840 - root - INFO - Data loaded successfully.
+2025-03-30 13:17:50,840 - root - INFO - Default patient set: P001
+2025-03-30 13:17:50,844 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 13:17:52,838 - root - INFO - Application started
+2025-03-30 13:17:52,844 - root - INFO - CSS styles loaded.
+2025-03-30 13:17:52,914 - root - INFO - Application started
+2025-03-30 13:17:52,917 - root - INFO - CSS styles loaded.
+2025-03-30 13:17:52,921 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-30 13:18:02,664 - root - INFO - Application started
+2025-03-30 13:18:02,671 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:02,794 - root - INFO - Application started
+2025-03-30 13:18:02,801 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:02,807 - root - INFO - Routing to page: Analyse des Protocoles
+2025-03-30 13:18:04,911 - root - INFO - Application started
+2025-03-30 13:18:04,918 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:05,004 - root - INFO - Application started
+2025-03-30 13:18:05,015 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:05,019 - root - INFO - Routing to page: Parcours Patient
+2025-03-30 13:18:06,598 - root - INFO - Application started
+2025-03-30 13:18:06,602 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:06,679 - root - INFO - Application started
+2025-03-30 13:18:06,686 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:06,692 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:18:26,901 - root - INFO - Application started
+2025-03-30 13:18:26,911 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:27,087 - root - INFO - Application started
+2025-03-30 13:18:27,089 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:27,093 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:18:30,840 - root - INFO - Application started
+2025-03-30 13:18:30,847 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:30,920 - root - INFO - Application started
+2025-03-30 13:18:30,923 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:30,925 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:18:33,334 - root - INFO - Application started
+2025-03-30 13:18:33,340 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:33,415 - root - INFO - Application started
+2025-03-30 13:18:33,418 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:33,421 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:18:42,860 - root - INFO - Application started
+2025-03-30 13:18:42,867 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:43,044 - root - INFO - Application started
+2025-03-30 13:18:43,047 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:43,054 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:18:45,424 - root - INFO - Application started
+2025-03-30 13:18:45,430 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:45,508 - root - INFO - Application started
+2025-03-30 13:18:45,510 - root - INFO - CSS styles loaded.
+2025-03-30 13:18:45,513 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:19:03,000 - root - INFO - Application started
+2025-03-30 13:19:03,011 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:03,019 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:19:04,763 - root - INFO - Application started
+2025-03-30 13:19:04,769 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:04,774 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:19:12,048 - root - INFO - Application started
+2025-03-30 13:19:12,055 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:12,131 - root - INFO - Application started
+2025-03-30 13:19:12,134 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:12,136 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:19:21,800 - root - INFO - Application started
+2025-03-30 13:19:21,806 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:21,812 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:19:21,823 - root - INFO - Nurse inputs saved successfully for Patient ID P005.
+2025-03-30 13:19:21,966 - root - INFO - Application started
+2025-03-30 13:19:21,970 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:21,973 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:19:26,436 - root - INFO - Application started
+2025-03-30 13:19:26,443 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:26,611 - root - INFO - Application started
+2025-03-30 13:19:26,619 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:26,625 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:19:30,851 - root - INFO - Application started
+2025-03-30 13:19:30,857 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:30,862 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:19:30,870 - root - INFO - Nurse inputs saved successfully for Patient ID P001.
+2025-03-30 13:19:30,942 - root - INFO - Application started
+2025-03-30 13:19:30,945 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:30,947 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:19:33,366 - root - INFO - Application started
+2025-03-30 13:19:33,374 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:33,490 - root - INFO - Application started
+2025-03-30 13:19:33,498 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:33,507 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-30 13:19:55,180 - root - INFO - Application started
+2025-03-30 13:19:55,191 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:55,389 - root - INFO - Application started
+2025-03-30 13:19:55,395 - root - INFO - CSS styles loaded.
+2025-03-30 13:19:55,404 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:20:33,952 - root - INFO - Application started
+2025-03-30 13:20:33,963 - root - INFO - CSS styles loaded.
+2025-03-30 13:20:33,973 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:20:33,985 - root - INFO - Nurse inputs saved successfully for Patient ID P001.
+2025-03-30 13:20:34,135 - root - INFO - Application started
+2025-03-30 13:20:34,138 - root - INFO - CSS styles loaded.
+2025-03-30 13:20:34,141 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:20:49,958 - root - INFO - Application started
+2025-03-30 13:20:49,970 - root - INFO - CSS styles loaded.
+2025-03-30 13:20:49,977 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:20:49,988 - root - INFO - Nurse inputs saved successfully for Patient ID P001.
+2025-03-30 13:20:50,126 - root - INFO - Application started
+2025-03-30 13:20:50,126 - root - INFO - Application started
+2025-03-30 13:20:50,206 - root - INFO - CSS styles loaded.
+2025-03-30 13:20:50,209 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:20:50,214 - root - INFO - Nurse inputs saved successfully for Patient ID P001.
+2025-03-30 13:20:50,290 - root - INFO - Application started
+2025-03-30 13:20:50,293 - root - INFO - CSS styles loaded.
+2025-03-30 13:20:50,295 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:20:51,773 - root - INFO - Application started
+2025-03-30 13:20:51,779 - root - INFO - CSS styles loaded.
+2025-03-30 13:20:51,855 - root - INFO - Application started
+2025-03-30 13:20:51,857 - root - INFO - CSS styles loaded.
+2025-03-30 13:20:51,860 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:21:08,682 - root - INFO - Application started
+2025-03-30 13:21:08,691 - root - INFO - CSS styles loaded.
+2025-03-30 13:21:08,697 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:21:08,708 - root - INFO - Nurse inputs saved successfully for Patient ID P002.
+2025-03-30 13:21:08,863 - root - INFO - Application started
+2025-03-30 13:21:08,867 - root - INFO - CSS styles loaded.
+2025-03-30 13:21:08,871 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:21:10,982 - root - INFO - Application started
+2025-03-30 13:21:10,987 - root - INFO - CSS styles loaded.
+2025-03-30 13:21:11,059 - root - INFO - Application started
+2025-03-30 13:21:11,062 - root - INFO - CSS styles loaded.
+2025-03-30 13:21:11,064 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:21:27,720 - root - INFO - Application started
+2025-03-30 13:21:27,727 - root - INFO - CSS styles loaded.
+2025-03-30 13:21:27,734 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:21:27,746 - root - INFO - Nurse inputs saved successfully for Patient ID P003.
+2025-03-30 13:21:27,927 - root - INFO - Application started
+2025-03-30 13:21:27,930 - root - INFO - CSS styles loaded.
+2025-03-30 13:21:27,933 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:22:54,233 - root - INFO - Application started
+2025-03-30 13:22:54,242 - root - INFO - CSS styles loaded.
+2025-03-30 13:22:54,275 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-30 13:22:54,291 - root - INFO - Nurse inputs saved successfully for Patient ID P003.
+2025-03-30 13:22:54,510 - root - INFO - Application started
+2025-03-30 13:22:54,513 - root - INFO - CSS styles loaded.
+2025-03-30 13:22:54,518 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières

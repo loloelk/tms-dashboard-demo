@@ -98,3 +98,55 @@
 2025-03-29 23:01:13,222 - root - INFO - Application started
 2025-03-29 23:01:13,225 - root - INFO - CSS styles loaded.
 2025-03-29 23:01:13,227 - root - INFO - Routing to page: Parcours Patient
+2025-03-29 23:43:28,543 - root - INFO - Application started
+2025-03-29 23:43:31,329 - root - INFO - Application started
+2025-03-29 23:43:33,104 - root - INFO - Application started
+2025-03-29 23:43:34,028 - root - INFO - Application started
+2025-03-29 23:43:34,073 - root - INFO - Application started
+2025-03-29 23:43:34,080 - root - INFO - Running database initialization check...
+2025-03-29 23:43:34,082 - root - INFO - Initializing database...
+2025-03-29 23:43:34,085 - root - INFO - Table 'nurse_inputs' checked/created.
+2025-03-29 23:43:34,086 - root - INFO - Table 'side_effects' checked/created.
+2025-03-29 23:43:34,087 - root - INFO - Table 'patients' checked/created.
+2025-03-29 23:43:34,087 - root - INFO - Database initialization complete.
+2025-03-29 23:43:34,088 - root - INFO - Database initialization check complete.
+2025-03-29 23:43:34,093 - root - INFO - CSS styles loaded.
+2025-03-29 23:43:34,124 - root - INFO - Data loaded successfully.
+2025-03-29 23:43:34,124 - root - INFO - Default patient set: P001
+2025-03-29 23:43:34,129 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-29 23:43:36,257 - root - INFO - Application started
+2025-03-29 23:43:36,271 - root - INFO - CSS styles loaded.
+2025-03-29 23:43:36,348 - root - INFO - Application started
+2025-03-29 23:43:36,351 - root - INFO - CSS styles loaded.
+2025-03-29 23:43:36,353 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-29 23:43:38,457 - root - INFO - Application started
+2025-03-29 23:43:38,467 - root - INFO - CSS styles loaded.
+2025-03-29 23:43:38,472 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-29 23:45:12,688 - root - INFO - Application started
+2025-03-29 23:45:16,478 - root - INFO - Application started
+2025-03-29 23:45:18,841 - root - INFO - Application started
+2025-03-29 23:45:19,793 - root - INFO - Application started
+2025-03-29 23:45:19,837 - root - INFO - Application started
+2025-03-29 23:45:19,874 - root - INFO - Running database initialization check...
+2025-03-29 23:45:19,874 - root - INFO - Initializing database...
+2025-03-29 23:45:19,885 - root - INFO - Table 'nurse_inputs' checked/created.
+2025-03-29 23:45:19,894 - root - INFO - Table 'side_effects' checked/created.
+2025-03-29 23:45:19,898 - root - INFO - Table 'patients' checked/created.
+2025-03-29 23:45:19,898 - root - INFO - Database initialization complete.
+2025-03-29 23:45:19,905 - root - INFO - Database initialization check complete.
+2025-03-29 23:45:19,906 - root - INFO - CSS styles loaded.
+2025-03-29 23:45:19,941 - root - INFO - Data loaded successfully.
+2025-03-29 23:45:19,941 - root - INFO - Default patient set: P001
+2025-03-29 23:45:19,948 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-29 23:45:22,069 - root - INFO - Application started
+2025-03-29 23:45:22,076 - root - INFO - CSS styles loaded.
+2025-03-29 23:45:22,153 - root - INFO - Application started
+2025-03-29 23:45:22,155 - root - INFO - CSS styles loaded.
+2025-03-29 23:45:22,157 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-29 23:45:24,859 - root - INFO - Application started
+2025-03-29 23:45:24,866 - root - INFO - CSS styles loaded.
+2025-03-29 23:45:24,923 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-29 23:45:24,967 - root - INFO - Nurse inputs saved successfully for Patient ID P001.
+2025-03-29 23:45:25,051 - root - INFO - Application started
+2025-03-29 23:45:25,054 - root - INFO - CSS styles loaded.
+2025-03-29 23:45:25,056 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
