@@ -1,8 +1,9 @@
 
 paths:
   patient_data_with_protocol: "data/patient_data_with_protocol_simulated.csv"
-  patient_data: "data/patient_data_simulated.csv"
-  nurse_inputs: "data/nurse_inputs.csv"
+  # patient_data field might be redundant if same as above, keep for now
+  patient_data: "data/patient_data_with_protocol_simulated.csv"
+  # nurse_inputs: field no longer used by app - database is source
   simulated_ema_data: "data/simulated_ema_data.csv"
 
 mappings:

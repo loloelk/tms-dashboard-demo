@@ -1,0 +1,100 @@
+2025-03-29 22:42:41,803 - root - INFO - Application started
+2025-03-29 22:42:41,901 - root - ERROR - There are duplicate IDs in the 'ID' column.
+2025-03-29 22:50:30,975 - root - INFO - Application started
+2025-03-29 22:50:33,451 - root - INFO - Application started
+2025-03-29 22:50:35,398 - root - INFO - Application started
+2025-03-29 22:51:05,607 - root - INFO - Application started
+2025-03-29 22:51:05,792 - root - INFO - Application started
+2025-03-29 22:51:05,797 - root - INFO - Running database initialization check...
+2025-03-29 22:51:05,798 - root - INFO - Initializing database...
+2025-03-29 22:51:05,806 - root - INFO - Table 'nurse_inputs' checked/created.
+2025-03-29 22:51:05,807 - root - INFO - Added column 'target_symptoms' to table 'nurse_inputs'.
+2025-03-29 22:51:05,807 - root - INFO - Added column 'planned_interventions' to table 'nurse_inputs'.
+2025-03-29 22:51:05,808 - root - INFO - Added column 'goal_status' to table 'nurse_inputs'.
+2025-03-29 22:51:05,810 - root - INFO - Table 'side_effects' checked/created.
+2025-03-29 22:51:05,812 - root - INFO - Table 'patients' checked/created.
+2025-03-29 22:51:05,812 - root - INFO - Database initialization complete.
+2025-03-29 22:51:05,812 - root - INFO - Database initialization check complete.
+2025-03-29 22:51:05,814 - root - INFO - CSS styles loaded.
+2025-03-29 22:51:05,872 - root - ERROR - There are duplicate IDs in the 'ID' column.
+2025-03-29 22:51:59,395 - root - INFO - Application started
+2025-03-29 22:51:59,409 - root - INFO - CSS styles loaded.
+2025-03-29 22:51:59,540 - root - INFO - Application started
+2025-03-29 22:51:59,543 - root - INFO - CSS styles loaded.
+2025-03-29 22:51:59,578 - root - ERROR - There are duplicate IDs in the 'ID' column.
+2025-03-29 22:57:55,581 - root - INFO - Application started
+2025-03-29 22:57:58,876 - root - INFO - Application started
+2025-03-29 22:58:00,411 - root - INFO - Application started
+2025-03-29 22:58:01,574 - root - INFO - Application started
+2025-03-29 22:58:01,630 - root - INFO - Application started
+2025-03-29 22:58:01,639 - root - INFO - Running database initialization check...
+2025-03-29 22:58:01,639 - root - INFO - Initializing database...
+2025-03-29 22:58:01,643 - root - INFO - Table 'nurse_inputs' checked/created.
+2025-03-29 22:58:01,644 - root - INFO - Table 'side_effects' checked/created.
+2025-03-29 22:58:01,644 - root - INFO - Table 'patients' checked/created.
+2025-03-29 22:58:01,645 - root - INFO - Database initialization complete.
+2025-03-29 22:58:01,645 - root - INFO - Database initialization check complete.
+2025-03-29 22:58:01,647 - root - INFO - CSS styles loaded.
+2025-03-29 22:58:01,677 - root - INFO - Data loaded successfully.
+2025-03-29 22:58:01,678 - root - INFO - Default patient set: P001
+2025-03-29 22:58:01,682 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-29 22:58:04,515 - root - INFO - Application started
+2025-03-29 22:58:04,541 - root - INFO - CSS styles loaded.
+2025-03-29 22:58:04,640 - root - INFO - Application started
+2025-03-29 22:58:04,642 - root - INFO - CSS styles loaded.
+2025-03-29 22:58:04,644 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-29 22:58:14,484 - root - INFO - Application started
+2025-03-29 22:58:14,496 - root - INFO - CSS styles loaded.
+2025-03-29 22:58:14,579 - root - INFO - Application started
+2025-03-29 22:58:14,582 - root - INFO - CSS styles loaded.
+2025-03-29 22:58:14,583 - root - INFO - Routing to page: Parcours Patient
+2025-03-29 22:58:17,338 - root - INFO - Application started
+2025-03-29 22:58:17,349 - root - INFO - CSS styles loaded.
+2025-03-29 22:58:17,414 - root - INFO - Application started
+2025-03-29 22:58:17,423 - root - INFO - CSS styles loaded.
+2025-03-29 22:58:17,425 - root - INFO - Routing to page: Analyse des Protocoles
+2025-03-29 22:59:07,439 - root - INFO - Application started
+2025-03-29 22:59:07,463 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:07,638 - root - INFO - Application started
+2025-03-29 22:59:07,641 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:07,643 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-29 22:59:11,316 - root - INFO - Application started
+2025-03-29 22:59:11,335 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:11,483 - root - INFO - Application started
+2025-03-29 22:59:11,486 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:11,488 - root - INFO - Routing to page: Détails PID-5
+2025-03-29 22:59:14,304 - root - INFO - Application started
+2025-03-29 22:59:14,317 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:14,394 - root - INFO - Application started
+2025-03-29 22:59:14,397 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:14,398 - root - INFO - Routing to page: Suivi des Effets Secondaires
+2025-03-29 22:59:15,389 - root - INFO - Application started
+2025-03-29 22:59:15,400 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:15,470 - root - INFO - Application started
+2025-03-29 22:59:15,479 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:15,481 - root - INFO - Routing to page: Détails PID-5
+2025-03-29 22:59:18,062 - root - INFO - Application started
+2025-03-29 22:59:18,082 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:18,177 - root - INFO - Application started
+2025-03-29 22:59:18,179 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:18,181 - root - INFO - Routing to page: Plan de Soins et Entrées Infirmières
+2025-03-29 22:59:55,701 - root - INFO - Application started
+2025-03-29 22:59:55,729 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:55,852 - root - INFO - Application started
+2025-03-29 22:59:55,855 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:55,857 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-29 22:59:57,857 - root - INFO - Application started
+2025-03-29 22:59:57,868 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:57,933 - root - INFO - Application started
+2025-03-29 22:59:57,940 - root - INFO - CSS styles loaded.
+2025-03-29 22:59:57,943 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-29 23:00:06,536 - root - INFO - Application started
+2025-03-29 23:00:06,555 - root - INFO - CSS styles loaded.
+2025-03-29 23:00:06,641 - root - INFO - Application started
+2025-03-29 23:00:06,643 - root - INFO - CSS styles loaded.
+2025-03-29 23:00:06,646 - root - INFO - Routing to page: Analyse des Protocoles
+2025-03-29 23:01:13,062 - root - INFO - Application started
+2025-03-29 23:01:13,081 - root - INFO - CSS styles loaded.
+2025-03-29 23:01:13,222 - root - INFO - Application started
+2025-03-29 23:01:13,225 - root - INFO - CSS styles loaded.
+2025-03-29 23:01:13,227 - root - INFO - Routing to page: Parcours Patient

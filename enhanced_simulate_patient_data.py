@@ -6,504 +6,422 @@ import os
 from datetime import datetime, timedelta
 import random
 import math
+import logging # Import logging
 
-# Configuration Parameters
+# --- Import functions to save data directly to DB ---
+# Ensure services/nurse_service.py is accessible (adjust path if needed)
+try:
+    from services.nurse_service import save_nurse_inputs, save_side_effect_report, initialize_database
+    DB_INTERACTION_ENABLED = True
+except ImportError as e:
+    logging.warning(f"Could not import from services.nurse_service: {e}. Will save to CSV instead.")
+    DB_INTERACTION_ENABLED = False
+
+
+# --- Configuration Parameters ---
 NUM_PATIENTS = 50
 PROTOCOLS = ['HF - 10Hz', 'iTBS', 'BR - 18Hz']
+START_DATE = datetime(2024, 1, 1)
+SIMULATION_DURATION_DAYS = 30 # How many days of EMA/Notes/Effects to simulate
 
 # Protocol response probabilities (HF > BR > iTBS)
-PROTOCOL_RESPONSE_RATES = {
-    'HF - 10Hz': 0.65,    # 65% response rate
-    'BR - 18Hz': 0.48,    # 48% response rate
-    'iTBS': 0.36          # 36% response rate
-}
+PROTOCOL_RESPONSE_RATES = {'HF - 10Hz': 0.65, 'BR - 18Hz': 0.48, 'iTBS': 0.36}
+PROTOCOL_REMISSION_RATES = {'HF - 10Hz': 0.42, 'BR - 18Hz': 0.28, 'iTBS': 0.20}
 
-PROTOCOL_REMISSION_RATES = {
-    'HF - 10Hz': 0.42,    # 42% remission rate
-    'BR - 18Hz': 0.28,    # 28% remission rate
-    'iTBS': 0.20          # 20% remission rate
-}
+# EMA Simulation Parameters
+EMA_MISSING_DAY_PROB = 0.05 # 5% chance to miss all entries for a day
+EMA_MISSING_ENTRY_PROB = 0.10 # 10% chance to miss an individual entry (if >1 planned)
+EMA_ENTRIES_PER_DAY_WEIGHTS = [0.1, 0.6, 0.3] # Weights for [1, 2, 3] entries/day
 
-START_DATE = datetime(2024, 1, 1)
+# Side Effect Simulation Parameters
+SIDE_EFFECT_PROB_INITIAL = 0.4 # 40% chance of *some* side effect on early days
+SIDE_EFFECT_PROB_LATER = 0.1 # 10% chance later
+SIDE_EFFECT_DECAY_DAY = 10 # Day by which side effect probability reduces
 
 # Create data directory if needed
 os.makedirs('data', exist_ok=True)
+os.makedirs('logs', exist_ok=True) # For logging
 
-def generate_patient_data():
-    """Generate patient data with realistic clinical distributions"""
-    patients = []
-    
-    for i in range(1, NUM_PATIENTS + 1):
-        patient_id = f'P{str(i).zfill(3)}'
-        
-        # Basic patient information with age distribution similar to clinical sample
-        age = int(np.random.normal(43.2, 12.5))  # Mean 43.2, SD 12.5
-        age = max(18, min(age, 75))  # Limit to reasonable range
-        
-        sex = random.choices(['1', '2'], weights=[0.42, 0.58])[0]  # More female patients (58%)
-        protocol = random.choice(PROTOCOLS)
-        
-        # Treatment history (based on common distributions in depression trials)
-        psychotherapie = random.choices(['0', '1'], weights=[0.35, 0.65])[0]  # 65% had previous therapy
-        ect = random.choices(['0', '1'], weights=[0.92, 0.08])[0]  # 8% had ECT
-        rtms = random.choices(['0', '1'], weights=[0.85, 0.15])[0]  # 15% had rTMS
-        tdcs = random.choices(['0', '1'], weights=[0.95, 0.05])[0]  # 5% had tDCS
-        
-        # Response probability based on protocol
-        will_respond = random.random() < PROTOCOL_RESPONSE_RATES[protocol]
-        will_remit = random.random() < PROTOCOL_REMISSION_RATES[protocol]
-        
-        # PHQ-9 scores
-        phq9_bl = int(np.random.normal(18.2, 4.3))  # Moderately severe to severe
-        phq9_bl = max(10, min(phq9_bl, 27))  # Range 10-27
-        
-        if will_respond:
-            # >50% improvement
-            improvement = random.uniform(0.51, 0.85)
-        else:
-            # <50% improvement
-            improvement = random.uniform(0.15, 0.49)
-            
-        phq9_fu = max(0, int(phq9_bl * (1 - improvement)))
-        
-        # MADRS scores - realistic baseline and improvement based on PHQ-9
-        # Convert PHQ-9 to MADRS scale (approximate conversion)
-        madrs_bl = int(phq9_bl * 1.4)  # PHQ-9 to MADRS approximate conversion
-        madrs_bl = max(15, min(madrs_bl, 40))  # Reasonable MADRS range
-        
-        # MADRS improvement typically aligns with PHQ-9 improvement but with some variation
-        madrs_improvement = improvement * random.uniform(0.8, 1.2)
-        
-        # If the patient will reach remission, ensure MADRS score goes below 10
-        if will_remit:
-            madrs_fu = random.randint(4, 9)
-        else:
-            madrs_fu = max(10, int(madrs_bl * (1 - madrs_improvement)))
-        
-        # Create patient record
-        patient = {
-            'ID': patient_id,
-            'age': age,
-            'sexe': sex,
-            'protocol': protocol,
-            'Timestamp': (START_DATE + timedelta(days=i)).strftime('%Y-%m-%d %H:%M:%S'),
-            'psychotherapie_bl': psychotherapie,
-            'ect_bl': ect,
-            'rtms_bl': rtms,
-            'tdcs_bl': tdcs,
-            'phq9_score_bl': phq9_bl,
-            'phq9_score_fu': phq9_fu,
-            'madrs_score_bl': madrs_bl,
-            'madrs_score_fu': madrs_fu,
-            'objectives': '',
-            'tasks': '',
-            'comments': ''
-        }
-        
-        # Add comorbidities with realistic distribution
-        comorbidities = ["None", "Anxiety", "PTSD", "Substance use", "Personality disorder", "Bipolar II"]
-        weights = [0.30, 0.35, 0.15, 0.10, 0.07, 0.03]  # Anxiety most common comorbidity
-        patient['comorbidities'] = random.choices(comorbidities, weights=weights)[0]
-        
-        # Additional demographics
-        patient['pregnant'] = '0' if sex == '1' else random.choices(['0', '1'], weights=[0.94, 0.06])[0]
-        patient['cigarette_bl'] = random.choices(['0', '1'], weights=[0.74, 0.26])[0]  # 26% smokers
-        patient['alcool_bl'] = random.choices(['0', '1'], weights=[0.85, 0.15])[0]  # 15% alcohol issues
-        patient['cocaine_bl'] = random.choices(['0', '1'], weights=[0.93, 0.07])[0]  # 7% cocaine use
-        patient['hospitalisation_bl'] = random.choices(['0', '1'], weights=[0.75, 0.25])[0]  # 25% prior hospitalization
-        
-        # Education and income with realistic distributions
-        patient['annees_education_bl'] = max(8, min(20, int(np.random.normal(14.2, 3.1))))
-        patient['revenu_bl'] = int(np.random.lognormal(10.5, 0.8))  # Lognormal distribution for income
-        patient['revenu_bl'] = max(12000, min(150000, patient['revenu_bl']))  # Range 12k-150k
-        
-        # Generate MADRS item scores
-        for item in range(1, 11):
-            # Different items have different typical severities
-            if item in [1, 2, 7, 9]:  # Core depression items often higher
-                baseline_mean = 3.5
-            elif item in [4, 5, 6]:  # Functional items moderate
-                baseline_mean = 2.8
-            else:  # Other items more variable
-                baseline_mean = 2.2
-                
-            # Add some noise around the mean
-            baseline_item = max(0, min(6, int(np.random.normal(baseline_mean, 1.0))))
-            
-            # Follow-up scores show relative improvement 
-            followup_mean = baseline_item * (1 - madrs_improvement)
-            followup_item = max(0, min(6, int(np.random.normal(followup_mean, 0.8))))
-            
-            patient[f'madrs_{item}_bl'] = baseline_item
-            patient[f'madrs_{item}_fu'] = followup_item
-        
-        # Make sure item scores sum to total score (approximately)
-        # Adjust to match the total MADRS score
-        madrs_items_bl_sum = sum(patient[f'madrs_{item}_bl'] for item in range(1, 11))
-        adjustment_factor = madrs_bl / max(1, madrs_items_bl_sum)
-        
-        for item in range(1, 11):
-            patient[f'madrs_{item}_bl'] = min(6, max(0, int(patient[f'madrs_{item}_bl'] * adjustment_factor)))
-        
-        # Do the same for follow-up scores
-        madrs_items_fu_sum = sum(patient[f'madrs_{item}_fu'] for item in range(1, 11))
-        adjustment_factor = madrs_fu / max(1, madrs_items_fu_sum)
-        
-        for item in range(1, 11):
-            patient[f'madrs_{item}_fu'] = min(6, max(0, int(patient[f'madrs_{item}_fu'] * adjustment_factor)))
-        
-        # Generate PHQ-9 daily scores showing proper trajectory
-        days = [5, 10, 15, 20, 25, 30]
-        
-        # Create a realistic improvement curve (not necessarily linear)
-        # Usually more improvement in the beginning, then plateau
-        improvement_curve = []
-        for day in days:
-            # Sigmoid-like improvement curve
-            progress = day / 30.0
-            day_improvement = improvement * (1 / (1 + math.exp(-10 * (progress - 0.5))))
-            expected_score = max(0, int(phq9_bl * (1 - day_improvement)))
-            improvement_curve.append(expected_score)
-            
-        # Make minor adjustments to create natural variation
-        for i in range(1, len(improvement_curve)):
-            # Add slight noise but maintain general downward trend
-            delta = improvement_curve[i-1] - improvement_curve[i]
-            improvement_curve[i] = improvement_curve[i-1] - max(0, int(delta + random.randint(-1, 1)))
-        
-        # Distribute PHQ-9 items for each day
-        for day_idx, day in enumerate(days):
-            expected_score = improvement_curve[day_idx]
-            
-            # Create item-level scores that sum to the expected total
-            phq9_items = distribute_phq9_score(expected_score)
-            
-            for item, score in enumerate(phq9_items, 1):
-                patient[f'phq9_day{day}_item{item}'] = score
-        
-        # Add PID-5 scores
-        generate_pid5_scores(patient, will_respond)
-        
-        patients.append(patient)
-    
-    return pd.DataFrame(patients)
+# Configure basic logging for the script
+log_file = os.path.join('logs', f'simulation_{datetime.now():%Y-%m-%d_%H%M%S}.log')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[logging.FileHandler(log_file), logging.StreamHandler()]
+)
+
+# --- Helper Functions ---
 
 def distribute_phq9_score(total_score):
-    """Distribute a total PHQ-9 score into 9 item scores realistically"""
-    # PHQ-9 items 1 (anhedonia) and 2 (depressed mood) are often higher
-    # Item 9 (suicidal thoughts) is often lower
-    
-    if total_score == 0:
-        return [0] * 9
-    
-    # Start with weight distribution for items
-    weights = [1.5, 1.5, 1.0, 1.0, 0.8, 1.0, 1.0, 0.8, 0.5]  # Higher weight for core symptoms
+    """Distribute a total PHQ-9 score into 9 item scores realistically (Unchanged)"""
+    if total_score <= 0: return [0] * 9
+    weights = [1.5, 1.5, 1.0, 1.0, 0.8, 1.0, 1.0, 0.8, 0.5]
     normalized_weights = [w/sum(weights) for w in weights]
-    
-    # First pass distribution
     raw_distribution = [total_score * w for w in normalized_weights]
-    
-    # Round and ensure within 0-3 range
     items = [min(3, max(0, round(val))) for val in raw_distribution]
-    
-    # Adjust to match the target total score
     current_sum = sum(items)
-    
-    # If we need to add points
+    # Adjust sum up
     while current_sum < total_score and max(items) < 3:
-        # Prioritize increasing items that aren't at maximum yet
         eligible_indices = [i for i, score in enumerate(items) if score < 3]
-        if eligible_indices:
-            idx = random.choices(eligible_indices, 
-                                [normalized_weights[i] for i in eligible_indices])[0]
-            items[idx] += 1
-            current_sum += 1
-        else:
-            break
-            
-    # If we need to remove points
+        if not eligible_indices: break
+        idx = random.choices(eligible_indices, [normalized_weights[i] for i in eligible_indices])[0]
+        items[idx] += 1; current_sum += 1
+    # Adjust sum down
     while current_sum > total_score and min(items) > 0:
-        # Prioritize decreasing items with lower weights
         eligible_indices = [i for i, score in enumerate(items) if score > 0]
-        if eligible_indices:
-            # Choose indices with probability inversely proportional to weights
-            inverse_weights = [1/normalized_weights[i] for i in eligible_indices]
-            sum_inverse = sum(inverse_weights)
-            inv_normalized = [w/sum_inverse for w in inverse_weights]
-            
-            idx = random.choices(eligible_indices, inv_normalized)[0]
-            items[idx] -= 1
-            current_sum -= 1
-        else:
-            break
-    
+        if not eligible_indices: break
+        inverse_weights = [1/normalized_weights[i] for i in eligible_indices]
+        idx = random.choices(eligible_indices, [w/sum(inverse_weights) for w in inverse_weights])[0]
+        items[idx] -= 1; current_sum -= 1
     return items
 
 def generate_pid5_scores(patient, will_respond):
-    """Generate PID-5 personality inventory scores"""
-    # Define domains and their items
-    domains = {
-        'Affect Négatif': [8, 9, 10, 11, 15],
-        'Détachement': [4, 13, 14, 16, 18],
-        'Antagonisme': [17, 19, 20, 22, 25],
-        'Désinhibition': [1, 2, 3, 5, 6],
-        'Psychoticisme': [7, 12, 21, 23, 24]
-    }
-    
-    # Initialize PID-5 total scores
+    """Generate PID-5 personality inventory scores (Unchanged)"""
+    domains = { 'Affect Négatif': [8, 9, 10, 11, 15], 'Détachement': [4, 13, 14, 16, 18],
+                'Antagonisme': [17, 19, 20, 22, 25], 'Désinhibition': [1, 2, 3, 5, 6],
+                'Psychoticisme': [7, 12, 21, 23, 24] }
     pid5_bl = random.randint(65, 95)
-    
-    # PID-5 typically improves less dramatically than symptom measures
-    if will_respond:
-        improvement = random.uniform(0.15, 0.25)
-    else:
-        improvement = random.uniform(0.05, 0.15)
-        
+    improvement = random.uniform(0.15, 0.25) if will_respond else random.uniform(0.05, 0.15)
     pid5_fu = int(pid5_bl * (1 - improvement))
-    
-    patient['pid5_score_bl'] = pid5_bl
-    patient['pid5_score_fu'] = pid5_fu
-    
-    # Generate domain-level scores that sum approximately to total
-    domain_weights = {
-        'Affect Négatif': 1.3,      # Higher in depression
-        'Détachement': 1.1,         # Higher in depression
-        'Antagonisme': 0.8,
-        'Désinhibition': 0.9,
-        'Psychoticisme': 0.7
-    }
-    
-    # Normalize weights
-    total_weight = sum(domain_weights.values())
-    normalized_weights = {k: v/total_weight for k, v in domain_weights.items()}
-    
-    # Distribute PID-5 scores by domain
+    patient['pid5_score_bl'] = pid5_bl; patient['pid5_score_fu'] = pid5_fu
+    domain_weights = {'Affect Négatif': 1.3, 'Détachement': 1.1, 'Antagonisme': 0.8, 'Désinhibition': 0.9, 'Psychoticisme': 0.7}
+    normalized_weights = {k: v/sum(domain_weights.values()) for k, v in domain_weights.items()}
     for domain, items in domains.items():
-        # Domain baseline score (approximately)
-        domain_bl_target = int(pid5_bl * normalized_weights[domain])
-        
-        # Generate item-level scores
         for item in items:
-            # Items vary from 0 to 4
             item_bl = random.randint(1, 4)
-            
-            # Follow-up scores show some improvement if patient responds to treatment
-            if will_respond:
-                item_fu = max(0, item_bl - random.randint(0, 2))
-            else:
-                item_fu = max(0, item_bl - random.randint(0, 1))
-                
-            patient[f'pid5_{item}_bl'] = item_bl
-            patient[f'pid5_{item}_fu'] = item_fu
-    
+            if will_respond: item_fu = max(0, item_bl - random.randint(0, 2))
+            else: item_fu = max(0, item_bl - random.randint(0, 1))
+            patient[f'pid5_{item}_bl'] = item_bl; patient[f'pid5_{item}_fu'] = item_fu
     return patient
 
-def generate_ema_data():
-    """Generate simulated EMA data for patients"""
-    # Define symptoms
+# --- Main Data Generation Functions ---
+
+def generate_patient_data():
+    """Generate main patient data"""
+    logging.info("Generating patient main data...")
+    patients = []
+    for i in range(1, NUM_PATIENTS + 1):
+        patient_id = f'P{str(i).zfill(3)}'
+        age = max(18, min(75, int(np.random.normal(43.2, 12.5))))
+        sex = random.choices(['1', '2'], weights=[0.42, 0.58])[0]
+        protocol = random.choice(PROTOCOLS)
+        psychotherapie = random.choices(['0', '1'], weights=[0.35, 0.65])[0]
+        ect = random.choices(['0', '1'], weights=[0.92, 0.08])[0]
+        rtms = random.choices(['0', '1'], weights=[0.85, 0.15])[0]
+        tdcs = random.choices(['0', '1'], weights=[0.95, 0.05])[0]
+        will_respond = random.random() < PROTOCOL_RESPONSE_RATES[protocol]
+        will_remit = random.random() < PROTOCOL_REMISSION_RATES[protocol]
+        phq9_bl = max(10, min(27, int(np.random.normal(18.2, 4.3))))
+        improvement = random.uniform(0.51, 0.85) if will_respond else random.uniform(0.15, 0.49)
+        phq9_fu = max(0, int(phq9_bl * (1 - improvement)))
+        madrs_bl = max(15, min(40, int(phq9_bl * 1.4)))
+        madrs_improvement = improvement * random.uniform(0.8, 1.2)
+        madrs_fu = random.randint(4, 9) if will_remit else max(10, int(madrs_bl * (1 - madrs_improvement)))
+
+        patient = { 'ID': patient_id, 'age': age, 'sexe': sex, 'protocol': protocol,
+                    'Timestamp': (START_DATE + timedelta(days=i)).strftime('%Y-%m-%d %H:%M:%S'), # Base start date
+                    'psychotherapie_bl': psychotherapie, 'ect_bl': ect, 'rtms_bl': rtms, 'tdcs_bl': tdcs,
+                    'phq9_score_bl': phq9_bl, 'phq9_score_fu': phq9_fu,
+                    'madrs_score_bl': madrs_bl, 'madrs_score_fu': madrs_fu,
+                    'will_respond': will_respond, 'will_remit': will_remit # Store outcome for other sims
+                  }
+        # Add comorbidities
+        comorbidities = ["None", "Anxiety", "PTSD", "Substance use", "Personality disorder", "Bipolar II"]
+        patient['comorbidities'] = random.choices(comorbidities, weights=[0.30, 0.35, 0.15, 0.10, 0.07, 0.03])[0]
+        # Add other demographics
+        patient['pregnant'] = '0' if sex == '1' else random.choices(['0', '1'], weights=[0.94, 0.06])[0]
+        patient['cigarette_bl'] = random.choices(['0', '1'], weights=[0.74, 0.26])[0]
+        patient['alcool_bl'] = random.choices(['0', '1'], weights=[0.85, 0.15])[0]
+        patient['cocaine_bl'] = random.choices(['0', '1'], weights=[0.93, 0.07])[0]
+        patient['hospitalisation_bl'] = random.choices(['0', '1'], weights=[0.75, 0.25])[0]
+        patient['annees_education_bl'] = max(8, min(20, int(np.random.normal(14.2, 3.1))))
+        patient['revenu_bl'] = max(12000, min(150000, int(np.random.lognormal(10.5, 0.8))))
+
+        # Generate MADRS items
+        for item in range(1, 11):
+            if item in [1, 2, 7, 9]: baseline_mean = 3.5
+            elif item in [4, 5, 6]: baseline_mean = 2.8
+            else: baseline_mean = 2.2
+            baseline_item = max(0, min(6, int(np.random.normal(baseline_mean, 1.0))))
+            followup_mean = baseline_item * (1 - madrs_improvement)
+            followup_item = max(0, min(6, int(np.random.normal(followup_mean, 0.8))))
+            patient[f'madrs_{item}_bl'] = baseline_item
+            patient[f'madrs_{item}_fu'] = followup_item
+        # Adjust MADRS items to sum approx to total (Unchanged)
+        madrs_items_bl_sum = sum(patient[f'madrs_{item}_bl'] for item in range(1, 11))
+        adj_factor_bl = madrs_bl / max(1, madrs_items_bl_sum)
+        for item in range(1, 11): patient[f'madrs_{item}_bl'] = min(6, max(0, int(patient[f'madrs_{item}_bl'] * adj_factor_bl)))
+        madrs_items_fu_sum = sum(patient[f'madrs_{item}_fu'] for item in range(1, 11))
+        adj_factor_fu = madrs_fu / max(1, madrs_items_fu_sum)
+        for item in range(1, 11): patient[f'madrs_{item}_fu'] = min(6, max(0, int(patient[f'madrs_{item}_fu'] * adj_factor_fu)))
+
+        # Generate PHQ9 daily items (Unchanged)
+        days = [5, 10, 15, 20, 25, 30]
+        improvement_curve = []
+        for day in days:
+            progress = day / 30.0
+            day_improvement = improvement * (1 / (1 + math.exp(-10 * (progress - 0.5))))
+            improvement_curve.append(max(0, int(phq9_bl * (1 - day_improvement))))
+        for i in range(1, len(improvement_curve)): # Add noise
+             delta = improvement_curve[i-1] - improvement_curve[i]
+             improvement_curve[i] = improvement_curve[i-1] - max(0, int(delta + random.randint(-1, 1)))
+        for day_idx, day in enumerate(days):
+             phq9_items = distribute_phq9_score(improvement_curve[day_idx])
+             for item, score in enumerate(phq9_items, 1): patient[f'phq9_day{day}_item{item}'] = score
+
+        # Generate PID5 scores (Unchanged)
+        patient = generate_pid5_scores(patient, will_respond)
+
+        patients.append(patient)
+
+    logging.info(f"Generated main data for {len(patients)} patients.")
+    return pd.DataFrame(patients)
+
+def generate_ema_data(patient_df):
+    """Generate simulated EMA data with missing data simulation"""
+    logging.info("Generating EMA data...")
     MADRS_ITEMS = [f'madrs_{i}' for i in range(1, 11)]
     ANXIETY_ITEMS = [f'anxiety_{i}' for i in range(1, 6)]
-    SLEEP = 'sleep'
-    ENERGY = 'energy'
-    STRESS = 'stress'
+    SLEEP, ENERGY, STRESS = 'sleep', 'energy', 'stress'
     SYMPTOMS = MADRS_ITEMS + ANXIETY_ITEMS + [SLEEP, ENERGY, STRESS]
-    
     ema_entries = []
-    
-    # Get patient data to align EMA trends with outcomes
-    patient_df = pd.read_csv('data/patient_data_simulated.csv')
-    
+
     for _, patient in patient_df.iterrows():
         patient_id = patient['ID']
         protocol = patient['protocol']
-        
-        # Calculate if patient improved (based on MADRS)
-        improved = patient['madrs_score_fu'] < patient['madrs_score_bl']
-        
-        # Protocol effectiveness influences daily fluctuations
-        protocol_effect = {
-            'HF - 10Hz': 0.8,  # Good stability
-            'BR - 18Hz': 0.65, # Moderate stability
-            'iTBS': 0.5        # More fluctuation
-        }
-        
-        stability = protocol_effect[protocol]
-        
-        # Baseline symptom levels (from MADRS)
-        baseline_severity = patient['madrs_score_bl'] / 40  # Normalize to 0-1 scale
-        
-        # Track ongoing severity that will change over time
+        improved = patient['will_respond'] # Use stored outcome
+        baseline_severity = patient['madrs_score_bl'] / 40.0
         current_severity = baseline_severity
-        
-        for day in range(1, 31):
-            # Number of entries per day varies, with higher compliance early in treatment
-            n_entries = random.choices([1, 2, 3], 
-                                     weights=[0.2, 0.5, 0.3])[0]
-            
-            # Treatment effect increases over time
-            day_effect = day / 30
-            
-            if improved:
-                # Improving trajectory
-                target_severity = baseline_severity * (1 - day_effect * 0.6)
-            else:
-                # Non-improving trajectory
-                target_severity = baseline_severity * (1 - day_effect * 0.2)
-            
-            # Move current severity toward target with some noise
-            current_severity = current_severity * stability + target_severity * (1-stability)
-            current_severity += random.uniform(-0.1, 0.1)  # Add noise
-            current_severity = max(0, min(1, current_severity))  # Keep in range 0-1
-            
-            for entry in range(1, n_entries+1):
-                # Create timestamp
-                hour = random.randint(8, 21)
-                minute = random.randint(0, 59)
-                timestamp = START_DATE + timedelta(days=day-1, hours=hour, minutes=minute)
-                
-                # Entry-level severity fluctuates slightly
-                entry_severity = current_severity * random.uniform(0.9, 1.1)
-                entry_severity = max(0, min(1, entry_severity))
-                
-                # Create entry
-                ema_entry = {
-                    'PatientID': patient_id,
-                    'Timestamp': timestamp.strftime('%Y-%m-%d %H:%M:%S'),
-                    'Day': day,
-                    'Entry': entry
-                }
-                
-                # Add symptom scores with realistic correlations
-                # MADRS items (scaled to 0-6)
-                for item in range(1, 11):
-                    base_score = entry_severity * 6
-                    item_score = int(max(0, min(6, base_score + random.uniform(-1.5, 1.5))))
-                    ema_entry[f'madrs_{item}'] = item_score
-                
-                # Anxiety items (scaled to 0-4)
-                for item in range(1, 6):
-                    # Anxiety correlates with depression but has own fluctuations
-                    base_score = entry_severity * 4
-                    item_score = int(max(0, min(4, base_score + random.uniform(-1, 1))))
-                    ema_entry[f'anxiety_{item}'] = item_score
-                
-                # Sleep and energy are inversely related to severity
-                sleep_score = int(max(0, min(4, (1 - entry_severity) * 4 + random.uniform(-1, 1))))
-                energy_score = int(max(0, min(4, (1 - entry_severity) * 4 + random.uniform(-1, 1))))
-                
-                # Stress positively correlates with severity
-                stress_score = int(max(0, min(4, entry_severity * 4 + random.uniform(-1, 1))))
-                
-                ema_entry[SLEEP] = sleep_score
-                ema_entry[ENERGY] = energy_score
-                ema_entry[STRESS] = stress_score
-                
-                ema_entries.append(ema_entry)
-    
+        protocol_effect = {'HF - 10Hz': 0.8, 'BR - 18Hz': 0.65, 'iTBS': 0.5}
+        stability = protocol_effect[protocol]
+        patient_start_date = pd.to_datetime(patient['Timestamp'])
+
+        for day in range(1, SIMULATION_DURATION_DAYS + 1):
+            # --- Simulate Missing Day ---
+            if random.random() < EMA_MISSING_DAY_PROB:
+                logging.debug(f"Patient {patient_id} missing EMA for Day {day}")
+                continue # Skip this day entirely
+
+            # --- Calculate Target Severity ---
+            day_effect = day / float(SIMULATION_DURATION_DAYS)
+            improvement_factor = 0.7 if improved else 0.2 # Responders improve more
+            target_severity = baseline_severity * (1 - day_effect * improvement_factor)
+
+            # Move current severity toward target + noise (More variability early)
+            noise_level = 0.15 * (1 - day_effect * 0.5) # More noise early on
+            current_severity = current_severity * stability + target_severity * (1 - stability)
+            current_severity += random.uniform(-noise_level, noise_level)
+            current_severity = max(0, min(1, current_severity))
+
+            # --- Generate Entries for the Day ---
+            n_entries_planned = random.choices([1, 2, 3], weights=EMA_ENTRIES_PER_DAY_WEIGHTS)[0]
+            entries_today = 0
+            for entry_num in range(1, n_entries_planned + 1):
+                 # --- Simulate Missing Entry ---
+                 if n_entries_planned > 1 and random.random() < EMA_MISSING_ENTRY_PROB:
+                      logging.debug(f"Patient {patient_id} missing EMA Entry {entry_num}/{n_entries_planned} on Day {day}")
+                      continue # Skip this specific entry
+
+                 hour = random.randint(8, 21); minute = random.randint(0, 59)
+                 # Ensure timestamp uses patient's specific start date
+                 timestamp = patient_start_date + timedelta(days=day - 1, hours=hour, minutes=minute)
+
+                 entry_severity = max(0, min(1, current_severity * random.uniform(0.9, 1.1)))
+                 ema_entry = {'PatientID': patient_id, 'Timestamp': timestamp.strftime('%Y-%m-%d %H:%M:%S'),
+                              'Day': day, 'Entry': entry_num}
+
+                 # Add symptom scores (same logic as before)
+                 for item in range(1, 11): ema_entry[f'madrs_{item}'] = int(max(0, min(6, (entry_severity*6) + random.uniform(-1.5, 1.5))))
+                 for item in range(1, 6): ema_entry[f'anxiety_{item}'] = int(max(0, min(4, (entry_severity*4) + random.uniform(-1, 1))))
+                 ema_entry[SLEEP] = int(max(0, min(4, ((1-entry_severity)*4) + random.uniform(-1, 1))))
+                 ema_entry[ENERGY] = int(max(0, min(4, ((1-entry_severity)*4) + random.uniform(-1, 1))))
+                 ema_entry[STRESS] = int(max(0, min(4, (entry_severity*4) + random.uniform(-1, 1))))
+
+                 ema_entries.append(ema_entry)
+                 entries_today += 1
+
+            logging.debug(f"Patient {patient_id} Day {day}: Target Sev {target_severity:.2f}, Actual Entries {entries_today}/{n_entries_planned}")
+
+
+    logging.info(f"Generated {len(ema_entries)} EMA entries.")
     return pd.DataFrame(ema_entries)
 
-def generate_whoqol_data(patients_df):
-    """Add WHOQOL-BREF quality of life data to patient records"""
-    
-    for index, row in patients_df.iterrows():
-        # Get improvement status from MADRS
-        madrs_improvement = (row['madrs_score_bl'] - row['madrs_score_fu']) / row['madrs_score_bl']
-        
-        # WHOQOL items (1-26)
-        for item in range(1, 27):
-            # Baseline scores tend to be low when depression is high
-            whoqol_bl = random.randint(1, 3)
-            
-            # Follow-up scores improve in relation to symptom improvement
-            if madrs_improvement > 0.5:  # Good improvement
-                whoqol_fu = min(5, whoqol_bl + random.randint(1, 2))
-            elif madrs_improvement > 0.3:  # Moderate improvement
-                whoqol_fu = min(5, whoqol_bl + random.randint(0, 2))
-            else:  # Little improvement
-                whoqol_fu = min(5, whoqol_bl + random.randint(0, 1))
-            
-            patients_df.at[index, f'whoqol_bref_item{item}_bl'] = whoqol_bl
-            patients_df.at[index, f'whoqol_bref_item{item}_fu'] = whoqol_fu
-        
-        # Calculate domain scores
-        domains = {
-            1: list(range(3, 10)),       # Physical health: items 3-9
-            2: list(range(10, 16)),      # Psychological: items 10-15
-            3: list(range(16, 19)),      # Social relationships: items 16-18
-            4: list(range(19, 27))       # Environment: items 19-26
-        }
-        
-        for domain, items in domains.items():
-            # Calculate raw domain scores
-            domain_bl_raw = sum(patients_df.at[index, f'whoqol_bref_item{item}_bl'] for item in items)
-            domain_fu_raw = sum(patients_df.at[index, f'whoqol_bref_item{item}_fu'] for item in items)
-            
-            # Save raw scores
-            patients_df.at[index, f'whoqol_bref_domain{domain}_raw_bl'] = domain_bl_raw
-            patients_df.at[index, f'whoqol_bref_domain{domain}_raw_fu'] = domain_fu_raw
-            
-            # Calculate standardized scores (0-100)
-            # Formula: (raw score - 4) × (100/16) for domain 1
-            # Formula: (raw score - 5) × (100/20) for domain 2
-            # Formula: (raw score - 3) × (100/12) for domain 3
-            # Formula: (raw score - 8) × (100/32) for domain 4
-            
-            if domain == 1:
-                domain_bl_std = (domain_bl_raw - 4) * (100/16)
-                domain_fu_std = (domain_fu_raw - 4) * (100/16)
-            elif domain == 2:
-                domain_bl_std = (domain_bl_raw - 5) * (100/20)
-                domain_fu_std = (domain_fu_raw - 5) * (100/20)
-            elif domain == 3:
-                domain_bl_std = (domain_bl_raw - 3) * (100/12)
-                domain_fu_std = (domain_fu_raw - 3) * (100/12)
-            else:
-                domain_bl_std = (domain_bl_raw - 8) * (100/32)
-                domain_fu_std = (domain_fu_raw - 8) * (100/32)
-            
-            # Save standardized scores
-            patients_df.at[index, f'whoqol_bref_domain{domain}_std_bl'] = domain_bl_std
-            patients_df.at[index, f'whoqol_bref_domain{domain}_std_fu'] = domain_fu_std
-        
-        # Calculate total scores
-        total_bl_std = sum(patients_df.at[index, f'whoqol_bref_domain{domain}_std_bl'] for domain in domains) / 4
-        total_fu_std = sum(patients_df.at[index, f'whoqol_bref_domain{domain}_std_fu'] for domain in domains) / 4
-        
-        patients_df.at[index, 'whoqol_bref_total_std_bl'] = total_bl_std
-        patients_df.at[index, 'whoqol_bref_total_std_fu'] = total_fu_std
-    
-    return patients_df
+def generate_side_effects_data(patient_df):
+    """Generate simulated side effect reports and save to DB."""
+    logging.info("Generating side effects data...")
+    if not DB_INTERACTION_ENABLED:
+        logging.warning("Database interaction disabled. Skipping side effect DB insertion.")
+        # Optionally save to CSV as fallback
+        # side_effects_list = [] ... append dicts ... pd.DataFrame(side_effects_list).to_csv(...)
+        return
 
-# Main execution
+    num_saved = 0
+    for _, patient in patient_df.iterrows():
+        patient_id = patient['ID']
+        patient_start_date = pd.to_datetime(patient['Timestamp'])
+
+        # Simulate a few reports per patient, mostly early on
+        num_reports = random.randint(1, 5)
+        for i in range(num_reports):
+            # Effects more likely early, less likely later
+            day_offset = random.randint(1, SIMULATION_DURATION_DAYS)
+            prob_cutoff = SIDE_EFFECT_PROB_INITIAL if day_offset <= SIDE_EFFECT_DECAY_DAY else SIDE_EFFECT_PROB_LATER
+
+            if random.random() < prob_cutoff:
+                report_date = patient_start_date + timedelta(days=day_offset)
+                report_data = {'patient_id': patient_id, 'report_date': report_date.strftime('%Y-%m-%d')}
+
+                # Simulate severity (mostly mild)
+                report_data['headache'] = random.choices([0, 1, 2, 3, 4], weights=[0.6, 0.2, 0.1, 0.05, 0.05])[0]
+                report_data['nausea'] = random.choices([0, 1, 2], weights=[0.8, 0.15, 0.05])[0]
+                report_data['scalp_discomfort'] = random.choices([0, 1, 2, 3], weights=[0.5, 0.3, 0.15, 0.05])[0]
+                report_data['dizziness'] = random.choices([0, 1, 2], weights=[0.75, 0.15, 0.10])[0]
+                report_data['other_effects'] = random.choice(['', 'Fatigue légère', '']) if random.random() < 0.1 else ''
+                report_data['notes'] = random.choice(['', 'Mentionné en passant', 'Semble tolérer ok', '']) if random.random() < 0.2 else ''
+
+                # Save to DB using the imported function
+                try:
+                    save_side_effect_report(report_data)
+                    num_saved += 1
+                except Exception as e:
+                    logging.error(f"Failed to save side effect report for {patient_id} via service: {e}")
+
+    logging.info(f"Generated and attempted to save {num_saved} side effect reports to database.")
+
+
+def generate_nurse_notes_data(patient_df):
+    """Generate simulated nurse notes/plan updates and save to DB."""
+    logging.info("Generating nurse notes data...")
+    if not DB_INTERACTION_ENABLED:
+        logging.warning("Database interaction disabled. Skipping nurse note DB insertion.")
+        return
+
+    num_saved = 0
+    for _, patient in patient_df.iterrows():
+        patient_id = patient['ID']
+        patient_start_date = pd.to_datetime(patient['Timestamp'])
+        will_respond = patient['will_respond']
+        will_remit = patient['will_remit']
+        protocol = patient['protocol']
+
+        # --- Initial Note (Day 1-3) ---
+        initial_day = random.randint(1, 3)
+        initial_ts = patient_start_date + timedelta(days=initial_day)
+        initial_note = {
+            'patient_id': patient_id,
+            'objectives': f"Initiation protocole {protocol}. Objectif: Réduction MADRS >50%. Surveillance effets secondaires.",
+            'tasks': "Compléter questionnaires journaliers (EMA). Rapporter effets secondaires.",
+            'comments': "Patient motivé pour commencer le traitement.",
+            'target_symptoms': "Humeur dépressive, Anhédonie, Insomnie",
+            'planned_interventions': f"Protocole TMS standard {protocol}.",
+            'goal_status': "Not Started",
+            # Add timestamp explicitly if needed by save function signature (or let DB handle it)
+        }
+        try:
+            # Assuming save_nurse_inputs handles timestamp via DEFAULT CURRENT_TIMESTAMP
+            save_nurse_inputs(**initial_note) # Use dictionary unpacking
+            num_saved += 1
+        except Exception as e:
+             logging.error(f"Failed to save initial nurse note for {patient_id} via service: {e}")
+
+
+        # --- Mid-Treatment Note (Day 12-18) ---
+        mid_day = random.randint(12, 18)
+        mid_ts = patient_start_date + timedelta(days=mid_day)
+        mid_status = "In Progress"
+        mid_comment = "Amélioration légère du sommeil rapportée." if random.random() < 0.6 else "Stabilité des symptômes."
+        if not will_respond and random.random() < 0.3:
+             mid_comment = "Patient exprime frustration, peu d'amélioration ressentie."
+             mid_status = "On Hold" # Example status change
+
+        mid_note = {
+            'patient_id': patient_id,
+            'objectives': initial_note['objectives'], # Carry over objectives for simplicity
+            'tasks': initial_note['tasks'],
+            'comments': mid_comment,
+            'target_symptoms': initial_note['target_symptoms'],
+            'planned_interventions': initial_note['planned_interventions'],
+            'goal_status': mid_status
+        }
+        try:
+            save_nurse_inputs(**mid_note)
+            num_saved += 1
+        except Exception as e:
+             logging.error(f"Failed to save mid-treatment nurse note for {patient_id} via service: {e}")
+
+
+        # --- Final Note (Day 28-30) ---
+        final_day = random.randint(28, 30)
+        final_ts = patient_start_date + timedelta(days=final_day)
+        if will_remit:
+             final_status = "Achieved"
+             final_comment = "Rémission obtenue selon MADRS. Discussion fin de traitement."
+        elif will_respond:
+             final_status = "Achieved" # Or maybe 'Partially Achieved' if adding status
+             final_comment = "Réponse significative au traitement. MADRS amélioré >50%."
+        else:
+             final_status = "Revised" # Example status
+             final_comment = "Réponse insuffisante. Discussion d'options alternatives."
+
+        final_note = {
+            'patient_id': patient_id,
+            'objectives': initial_note['objectives'],
+            'tasks': "Planification suivi post-traitement.",
+            'comments': final_comment,
+            'target_symptoms': initial_note['target_symptoms'],
+            'planned_interventions': "Fin protocole TMS standard." if will_respond else "Réévaluation / Changement de stratégie",
+            'goal_status': final_status
+        }
+        try:
+            save_nurse_inputs(**final_note)
+            num_saved += 1
+        except Exception as e:
+             logging.error(f"Failed to save final nurse note for {patient_id} via service: {e}")
+
+
+    logging.info(f"Generated and attempted to save {num_saved} nurse notes to database.")
+
+
+# --- Main Execution ---
 if __name__ == "__main__":
-    print("Generating patient data...")
-    patient_data = generate_patient_data()
-    
-    # Add WHOQOL-BREF data
-    patient_data = generate_whoqol_data(patient_data)
-    
-    # Fill any missing columns with NaN to ensure compatibility
-    patient_data.to_csv('data/patient_data_simulated.csv', index=False)
-    patient_data.to_csv('data/patient_data_with_protocol_simulated.csv', index=False)
-    print(f"Saved patient data for {len(patient_data)} patients")
-    
-    # Generate and save EMA data
-    print("Generating EMA data...")
-    ema_data = generate_ema_data()
-    ema_data.to_csv('data/simulated_ema_data.csv', index=False)
-    print(f"Saved {len(ema_data)} EMA entries")
-    
-    # Create empty nurse inputs file if it doesn't exist
-    if not os.path.exists('data/nurse_inputs.csv'):
-        pd.DataFrame(columns=['ID', 'objectives', 'tasks', 'comments']).to_csv('data/nurse_inputs.csv', index=False)
-        print("Created empty nurse inputs file")
-    
-    # Create config.yaml file
+    logging.info("--- Starting Data Simulation ---")
+
+    # Initialize DB schema (ensure tables/columns exist)
+    if DB_INTERACTION_ENABLED:
+        logging.info("Initializing database schema...")
+        initialize_database()
+    else:
+         logging.warning("DB interaction disabled, schema not initialized by script.")
+
+    # Generate main patient data
+    patient_data_df = generate_patient_data()
+    # Remove columns no longer needed (objectives, tasks, comments were placeholders)
+    cols_to_drop = ['objectives', 'tasks', 'comments']
+    patient_data_df = patient_data_df.drop(columns=[col for col in cols_to_drop if col in patient_data_df.columns])
+    # Save main patient data to CSV
+    patient_csv_path = 'data/patient_data_with_protocol_simulated.csv'
+    patient_data_df.to_csv(patient_csv_path, index=False)
+    logging.info(f"Saved main patient data for {len(patient_data_df)} patients to {patient_csv_path}")
+
+    # Generate EMA data
+    ema_data_df = generate_ema_data(patient_data_df)
+    ema_csv_path = 'data/simulated_ema_data.csv'
+    ema_data_df.to_csv(ema_csv_path, index=False)
+    logging.info(f"Saved {len(ema_data_df)} EMA entries to {ema_csv_path}")
+
+    # Generate and save Side Effects data (directly to DB if possible)
+    generate_side_effects_data(patient_data_df)
+
+    # Generate and save Nurse Notes data (directly to DB if possible)
+    generate_nurse_notes_data(patient_data_df)
+
+    # Create/Update config.yaml file (Unchanged)
     config_content = """
 paths:
   patient_data_with_protocol: "data/patient_data_with_protocol_simulated.csv"
-  patient_data: "data/patient_data_simulated.csv"
-  nurse_inputs: "data/nurse_inputs.csv"
+  # patient_data field might be redundant if same as above, keep for now
+  patient_data: "data/patient_data_with_protocol_simulated.csv"
+  # nurse_inputs: field no longer used by app - database is source
   simulated_ema_data: "data/simulated_ema_data.csv"
 
 mappings:
@@ -526,10 +444,10 @@ mappings:
     Désinhibition: [1, 2, 3, 5, 6]
     Psychoticisme: [7, 12, 21, 23, 24]
 """
-    
     os.makedirs('config', exist_ok=True)
-    with open('config/config.yaml', 'w') as f:
-        f.write(config_content)
-    print("Updated config.yaml file")
-    
+    with open('config/config.yaml', 'w') as f: f.write(config_content)
+    logging.info("Updated config.yaml file")
+
+    logging.info("--- Simulation complete. ---")
     print("\nSimulation complete. You can now run the application with 'streamlit run app.py'")
+    print(f"Log file generated at: {log_file}")
