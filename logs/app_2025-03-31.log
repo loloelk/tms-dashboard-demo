@@ -1,0 +1,54 @@
+2025-03-31 10:32:39,107 - root - INFO - Application started
+2025-03-31 10:32:41,334 - root - INFO - Application started
+2025-03-31 10:32:42,782 - root - INFO - Application started
+2025-03-31 10:32:43,843 - root - INFO - Application started
+2025-03-31 10:32:43,904 - root - INFO - Application started
+2025-03-31 10:32:43,914 - root - INFO - Running database initialization check...
+2025-03-31 10:32:43,914 - root - INFO - Initializing database...
+2025-03-31 10:32:43,918 - root - INFO - Table 'nurse_inputs' checked/created.
+2025-03-31 10:32:43,919 - root - INFO - Table 'side_effects' checked/created.
+2025-03-31 10:32:43,920 - root - INFO - Table 'patients' checked/created.
+2025-03-31 10:32:43,920 - root - INFO - Database initialization complete.
+2025-03-31 10:32:43,920 - root - INFO - Database initialization check complete.
+2025-03-31 10:32:43,921 - root - INFO - CSS styles loaded.
+2025-03-31 10:32:43,958 - root - INFO - Data loaded successfully.
+2025-03-31 10:32:43,958 - root - INFO - Default patient set: P001
+2025-03-31 10:32:43,967 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-31 10:32:46,446 - root - INFO - Application started
+2025-03-31 10:32:46,453 - root - INFO - CSS styles loaded.
+2025-03-31 10:32:46,459 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-31 10:32:46,547 - root - INFO - Application started
+2025-03-31 10:32:46,550 - root - INFO - CSS styles loaded.
+2025-03-31 10:32:46,561 - root - INFO - Routing to page: Tableau de Bord du Patient
+2025-03-31 10:48:01,666 - root - INFO - Application started
+2025-03-31 10:48:04,158 - root - INFO - Application started
+2025-03-31 10:48:07,663 - root - INFO - Application started
+2025-03-31 10:48:07,746 - root - INFO - Application started
+2025-03-31 10:48:07,785 - root - INFO - Application started
+2025-03-31 10:48:07,789 - root - INFO - Running database initialization check...
+2025-03-31 10:48:07,789 - root - INFO - Initializing database...
+2025-03-31 10:48:07,794 - root - INFO - Table 'nurse_inputs' checked/created.
+2025-03-31 10:48:07,796 - root - INFO - Table 'side_effects' checked/created.
+2025-03-31 10:48:07,796 - root - INFO - Table 'patients' checked/created.
+2025-03-31 10:48:07,796 - root - INFO - Database initialization complete.
+2025-03-31 10:48:07,796 - root - INFO - Database initialization check complete.
+2025-03-31 10:48:07,798 - root - INFO - CSS styles loaded.
+2025-03-31 10:48:07,833 - root - INFO - Data loaded successfully.
+2025-03-31 10:48:07,833 - root - INFO - Default patient set: P001
+2025-03-31 10:48:07,843 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-31 10:48:09,114 - root - INFO - Application started
+2025-03-31 10:48:09,122 - root - INFO - CSS styles loaded.
+2025-03-31 10:48:09,190 - root - INFO - Application started
+2025-03-31 10:48:09,193 - root - INFO - CSS styles loaded.
+2025-03-31 10:48:09,198 - root - INFO - Routing to page: Vue d'Ensemble
+2025-03-31 10:48:13,011 - root - INFO - Application started
+2025-03-31 10:48:13,017 - root - INFO - CSS styles loaded.
+2025-03-31 10:48:13,086 - root - INFO - Application started
+2025-03-31 10:48:13,118 - root - INFO - CSS styles loaded.
+2025-03-31 10:48:13,123 - root - INFO - Routing to page: Analyse des Protocoles
+2025-03-31 10:48:14,308 - root - INFO - Application started
+2025-03-31 10:48:14,315 - root - INFO - CSS styles loaded.
+2025-03-31 10:48:14,391 - root - INFO - Application started
+2025-03-31 10:48:14,394 - root - INFO - CSS styles loaded.
+2025-03-31 10:48:14,397 - root - INFO - Routing to page: Parcours Patient
+2025-03-31 10:48:14,423 - root - INFO - No side effect history found or report_date missing for P001
